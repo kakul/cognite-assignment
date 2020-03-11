@@ -1,0 +1,29 @@
+.user-card {
+  height: 64px;
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+}
+
+.selected {
+  background-color:  #fafafa !important;
+}
+
+.user-avatar {
+  margin-top: 7px;
+  display: inline-block;
+}
+
+.user-info {
+  font-size: 13px;
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 15px;
+  width: 60%;
+  height: 50px;
+  vertical-align: middle;
+  margin-top: 7px;
+}
+
+.user-name {
+  line-height: 50px;
+}
