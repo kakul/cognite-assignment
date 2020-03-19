@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useCallback} from 'react'
 import PropTypes from 'prop-types'
 import { Card } from 'antd'
 
 import './index.css'
 
-const MessageCard = ({text, className }) => {
-return <div className={className}>
+const MessageCard = ({text, className, id, deleteMessage }) => {
+
+  const deleteCb = useCallback(() => {
+    deleteMessage(id)
+  }, [deleteMessage, id])
+  return <div className={className} onClick={deleteCb}>
     <Card
       style={{ display: 'inline-block' }}
       size="small"

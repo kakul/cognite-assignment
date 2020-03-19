@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react'
 
-const MessageText = ({ sendMessage }) => {
+const MessageText = ({ sendMessage, setDraft, draft }) => {
   const divEl = useRef(null)
   const selectTextDiv = useCallback(()=> {
     if (divEl.current.innerHTML === 'Send a message') {
@@ -10,6 +10,7 @@ const MessageText = ({ sendMessage }) => {
 
   const keyListener = useCallback(event => {
     if (event.key === 'Enter') {
+      setDraft('')
       event.preventDefault()
       if (divEl.current.innerHTML) {
         sendMessage(divEl.current.innerHTML)
@@ -17,8 +18,10 @@ const MessageText = ({ sendMessage }) => {
         let selected = window.getSelection()
         selected.removeAllRanges()
       }
+    } else {
+      setDraft(divEl.current.innerHTML)
     }
-  }, [sendMessage])
+  }, [sendMessage, setDraft])
   
   const blurListener = useCallback(() => {
     if(!divEl.current.innerHTML) {
@@ -33,7 +36,7 @@ const MessageText = ({ sendMessage }) => {
       onClick={selectTextDiv}
       ref={divEl}
       contentEditable>
-      Send a message
+      {draft || 'Send a message'}
     </div>
   )
 }

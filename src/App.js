@@ -12,6 +12,7 @@ import { users, messages, me } from './mock'
 const { Header, Content, Footer, Sider } = Layout
 
 function App() {
+  const [ userDrafts, setUserDrafts ] = useState({ 1: '', 2: '', 3: '' })
   const [ selected, setSelected ] = useState(null)
   const [ userMessages, setUserMessages ] = useState(messages)
   
@@ -26,6 +27,20 @@ function App() {
       return {...prevState, [selected]:prevMessages}
     })
   }, [selected])
+
+  const setDraft = useCallback((value) => {
+    setUserDrafts(prevState => {
+      return {...prevState, [selected]: value}
+    })
+  })
+
+  const deleteUserMessage = useCallback(id => {
+    setUserMessages(prevState => {
+      let prevMessages = prevState[selected]
+      prevMessages = prevMessages.filter(message => message.id !== id)
+      return {...prevState, [selected]: prevMessages}
+    })
+  })
   
   return (
     <div className="App">
@@ -55,7 +70,8 @@ function App() {
           { (selectedUser && selectedUser.name) || 'Messenger' }
         </Header>
             <Content>
-              <MessageThread 
+              <MessageThread
+                deleteMessage={deleteUserMessage} 
                 messages={(selected && userMessages[selected]) || []}
                 me={me}
                 them={selectedUser}
@@ -68,7 +84,7 @@ function App() {
                 backgroundColor: "white"
               }}
             >
-              <MessageText sendMessage={sendMessage}/>
+              <MessageText sendMessage={sendMessage} setDraft={setDraft} draft={userDrafts[selected] || ''} />
             </Footer>
           </Layout>
         </Layout>
